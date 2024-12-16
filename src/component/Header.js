@@ -4,10 +4,16 @@ import wikipediaWordmarkEn from '../static/images/mobile/copyright/wikipedia-wor
 import wikipediaTaglineEn from '../static/images/mobile/copyright/wikipedia-tagline-en.svg'
 import { IoIosSearch } from "react-icons/io";
 
-export default function Header() {
+export default function Header({ page, setPage }) {
     const [search, setSearch] = useState('')
+
+    const page1 = 'pageTagXml.xml'
+    const page2 = 'page2.xml'
+
     const handleSubmit = () => {
-        console.log(search)
+        console.log('submit')
+        console.log('page ' + page)
+        page === page1 ? setPage(page2) : setPage(page1)
     }
     return (
         <div style={{
@@ -46,28 +52,21 @@ export default function Header() {
                     maxWidth: '35.71428571em',
                     marginRight: 12
                 }}>
-                    <form action='' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid gray' }}>
-                        <div className="">
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-                                <IoIosSearch color='gray' size={24} />
-                                <input
-                                    style={{
-                                        border: 'none',
-                                        outline: 'none',
-                                        fontSize: 14,
-                                        width: 350
-                                    }}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    type="search"
-                                    name="search"
-                                    placeholder="Search Wikipedia"
-                                    aria-label="Search Wikipedia"
-                                    title="Search Wikipedia"
-                                    id="searchInput"
-                                />
-                                <span className="cdx-text-input__icon cdx-text-input__start-icon"></span>
-                            </div>
-                            <input type="hidden" name="title" value="Special:Search" />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid gray' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+                            <IoIosSearch color='gray' size={24} />
+                            <input
+                                style={{
+                                    border: 'none',
+                                    outline: 'none',
+                                    fontSize: 14,
+                                    width: 350
+                                }}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Search Wikipedia"
+                                title="Search Wikipedia"
+                                id="searchInput"
+                            />
                         </div>
                         <button onClick={handleSubmit}
                             style={{
@@ -77,7 +76,7 @@ export default function Header() {
                                 fontWeight: 'bold',
                                 fontSize: 14
                             }}>Search</button>
-                    </form>
+                    </div>
                 </div>
             </header>
         </div>

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import defaultImg from '../static/images/OIP.jpg'
 import { FcNext } from "react-icons/fc";
 
-export default function Container() {
+export default function Container({ page, setPage }) {
     const [textData, setTextData] = useState('');
     const [title, setTitle] = useState('')
 
     useEffect(() => {
         // Đọc file XML
-        fetch("/pageTagXml.xml") // Đảm bảo file `example.xml` nằm trong thư mục `public`
+        fetch(page) // Đảm bảo file `example.xml` nằm trong thư mục `public`
             .then((response) => response.text())
             .then((data) => {
                 // Phân tích cú pháp XML
@@ -28,7 +28,7 @@ export default function Container() {
                 setTitle(titles)
             })
             .catch((err) => console.error("Error reading XML file:", err));
-    }, []);
+    }, [page]);
 
     // useEffect(() => {
     //     // Fetch dữ liệu từ tệp testdata.txt trong thư mục public
@@ -50,7 +50,6 @@ export default function Container() {
 }
 
 const NavBarSite = ({ title, textData }) => {
-
     const divideText = (text) => {
         text = String(text);
         let result = [{
@@ -107,11 +106,14 @@ const NavBarSite = ({ title, textData }) => {
         return result;
     };
 
-    let [parts, setParts] = useState(divideText(textData));
+    let [parts, setParts] = useState([]);
+    useEffect(() => {
+        setParts(divideText(textData));
+    }, [textData]);
 
     const scrollToParagraph = (name) => {
         const target = document.getElementById(name);
-        target.scrollIntoView({
+        target?.scrollIntoView({
             behavior: 'smooth',  // Hiệu ứng cuộn mượt mà
             block: 'start',      // Đảm bảo thẻ P luôn ở đầu màn hình
         });
@@ -121,7 +123,6 @@ const NavBarSite = ({ title, textData }) => {
         <div style={{
             width: '40%'
         }}>
-            <div>{JSON.stringify(parts)}</div>
             <div style={{
                 position: 'fixed',
                 width: '180px',
@@ -312,7 +313,7 @@ const Content = ({ title, textData }) => {
             `;
         });
 
-        text = text.replace(/\{\|[\s\S]*\|\}/g, '');
+        // text = text.replace(/\{\| class = "wikitable" [\s\S]*\|\}/g, '');
 
         return text;
     };
