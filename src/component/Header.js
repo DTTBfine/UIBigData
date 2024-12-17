@@ -3,17 +3,32 @@ import wikipedia from '../static/images/icons/wikipedia.png'
 import wikipediaWordmarkEn from '../static/images/mobile/copyright/wikipedia-wordmark-en.svg'
 import wikipediaTaglineEn from '../static/images/mobile/copyright/wikipedia-tagline-en.svg'
 import { IoIosSearch } from "react-icons/io";
+import axios from 'axios';
 
 export default function Header({ page, setPage }) {
     const [search, setSearch] = useState('')
 
-    const page1 = 'pageTagXml.xml'
-    const page2 = 'page2.xml'
+    // const page1 = 'pageTagXml.xml'
+    // const page2 = 'page2.xml'
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         console.log('submit')
-        console.log('page ' + page)
-        page === page1 ? setPage(page2) : setPage(page1)
+        //gọi api 
+        //Xây dựng api python
+        // app = Flask(__name__)
+        // # Giả sử bạn muốn xử lý đầu vào và chuyển thành JSON với thông tin cơ bản.
+        // @app.route('/process_text', methods=['POST'])
+
+        // Chạy python app.py
+        // API sẽ chạy trên địa chỉ mặc định http://127.0.0.1:5000.
+        try {
+            const res = await axios.post('http://127.0.0.1:5000/process_text', { search }); //process_text là tên hàm python xử lý
+            setPage(res.data);
+        } catch (error) {
+            console.error("Error calling API:", error);
+        }
+
+        // page === page1 ? setPage(page2) : setPage(page1)
     }
     return (
         <div style={{

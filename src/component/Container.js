@@ -8,26 +8,27 @@ export default function Container({ page, setPage }) {
 
     useEffect(() => {
         // Đọc file XML
-        fetch(page) // Đảm bảo file `example.xml` nằm trong thư mục `public`
-            .then((response) => response.text())
-            .then((data) => {
-                // Phân tích cú pháp XML
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data, "text/xml");
+        // fetch(page) // Đảm bảo file `example.xml` nằm trong thư mục `public`
+        //     .then((response) => response.text())
+        //     .then((data) => {
+        //         // Phân tích cú pháp XML
+        //         const parser = new DOMParser();
+        //         const xmlDoc = parser.parseFromString(data, "text/xml");
 
-                // Lấy tất cả các thẻ <text>
-                const textNodes = xmlDoc.getElementsByTagName("text");
-                const texts = Array.from(textNodes).map((node) => node.textContent.trim());
+        //         // Lấy tất cả các thẻ <text>
+        //         const textNodes = xmlDoc.getElementsByTagName("text");
+        //         const texts = Array.from(textNodes).map((node) => node.textContent.trim());kk
+        //         setTextData(texts);
 
-                setTextData(texts);
+        //         // Lấy tất cả các thẻ <title>
+        //         const titleNodes = xmlDoc.getElementsByTagName("title");
+        //         const titles = Array.from(titleNodes).map((node) => node.textContent.trim());
 
-                // Lấy tất cả các thẻ <title>
-                const titleNodes = xmlDoc.getElementsByTagName("title");
-                const titles = Array.from(titleNodes).map((node) => node.textContent.trim());
-
-                setTitle(titles)
-            })
-            .catch((err) => console.error("Error reading XML file:", err));
+        //         setTitle(titles)
+        //     })
+        //     .catch((err) => console.error("Error reading XML file:", err));
+        setTitle(page?.title)
+        setTextData(page?.text)
     }, [page]);
 
     // useEffect(() => {
@@ -313,7 +314,7 @@ const Content = ({ title, textData }) => {
             `;
         });
 
-        // text = text.replace(/\{\| class = "wikitable" [\s\S]*\|\}/g, '');
+        text = text.replace(/\{\|[\s\S]*\|\}/g, '');
 
         return text;
     };
